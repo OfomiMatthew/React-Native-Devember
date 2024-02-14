@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
+import {AmaticSC_700Bold,AmaticSC_400Regular} from "@expo-google-fonts/amatic-sc"
 import DayListItem from "./src/components/core/DayListItem";
 import * as SplashScreen from "expo-splash-screen";
 import {
@@ -19,15 +20,20 @@ const days = Array.from({ length: 24 }, (v, i) => i + 1);
 export default function App() {
   let [fontsLoaded, fontError] = useFonts({
     Inter: Inter_900Black,
+    Amatic:AmaticSC_400Regular,
+    AmaticBold:AmaticSC_700Bold
   });
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
 
-  },[])
-
-  if (fontsLoaded || !fontError) {
-   SplashScreen.hideAsync();
+  if (!fontsLoaded && !fontError) {
+    return null;
   }
+
   return (
     <View style={styles.container}>
       <FlatList
